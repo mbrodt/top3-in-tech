@@ -6,14 +6,12 @@ export default function Subscribe() {
 
   const submitEmail = async (e) => {
     const api_key = process.env.NEXT_PUBLIC_API_PUBLIC;
-    console.log("env key", api_key);
     setStatus("working");
     e.preventDefault();
     const data = {
       email,
       api_key,
     };
-    console.log("submitting email", email);
     const res = await fetch(
       "https://api.convertkit.com/v3/forms/1918924/subscribe",
       {

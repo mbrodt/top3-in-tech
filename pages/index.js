@@ -31,7 +31,6 @@ export async function getServerSideProps() {
 
     .map((post, index) => {
       const url = `${BASE_URL}/${slugify(post.subject)}`;
-      console.log("url:", url);
       return {
         issue: index + 1,
         url,
@@ -48,9 +47,27 @@ export async function getServerSideProps() {
 
 export default function Home({ feed }) {
   return (
-    <div className="min-h-screen w-full bg-gray-900 text-white">
+    <div className="min-h-screen w-full bg-gray-900 text-white pb-8">
       <Head>
         <title>Top 3 in Tech newsletter</title>
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:site" content="@madsbrodt" />
+        <meta name="twitter:creator" content="@madsbrodt" />
+        <meta name="twitter:title" content="Become a better developer" />
+        <meta
+          name="twitter:description"
+          content="Get amazing resources, tech updates, and development advice directly to your inbox - every week"
+        />
+        <meta name="twitter:image" content="/top3_meta.png" />
+        <meta property="og:url" content="https://mads.fyi/top3" />
+        <meta property="og:type" content="article" />
+        <meta property="og:title" content="Become a better developer" />
+        <meta
+          property="og:description"
+          content="Get amazing resources, tech updates, and development advice directly to your inbox - every week"
+        />
+        <meta property="og:image" content="/top3_meta.png" />
+
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div className="max-w-xl lg:max-w-2xl mx-auto px-4">
