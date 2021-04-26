@@ -1,4 +1,5 @@
 import { useState } from "react";
+import confetti from "canvas-confetti";
 
 export default function Subscribe() {
   const [email, setEmail] = useState("");
@@ -24,6 +25,11 @@ export default function Subscribe() {
     );
     if (res.ok) {
       setStatus("success");
+      confetti({
+        particleCount: 100,
+        spread: 70,
+        origin: { y: 0.6 },
+      });
     } else {
       setStatus("error");
     }
@@ -94,8 +100,8 @@ export default function Subscribe() {
         </form>
       ) : (
         <div className="font-semibold">
-          Thank you! Now, check your email to confirm your subscription - then
-          I'll keep you updated 🔥
+          Thank you! Now, check your email to confirm your subscription - and
+          I'll keep you updated from there 🔥
         </div>
       )}
     </div>
