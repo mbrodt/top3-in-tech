@@ -22,13 +22,15 @@ export async function getServerSideProps() {
 
   const BASE_URL = "https://madsbrodt.ck.page/posts";
   const posts = await res.json();
+
+  // Filter to only Top 3 broadcasts
   const feed = posts.broadcasts
     .filter(
       (post, index, self) =>
         post.subject.startsWith("Top 3") &&
         self.findIndex((p) => p.subject === post.subject) === index
     )
-
+    // Map to include published URL
     .map((post, index) => {
       const url = `${BASE_URL}/${slugify(post.subject)}`;
       return {
@@ -38,14 +40,33 @@ export async function getServerSideProps() {
       };
     });
 
+  const newestBroadcast = feed[feed.length - 1];
+
+  // Get detailed stats for the last broadcast
+  const singleResponse = await fetch(
+    `https://api.convertkit.com/v3/broadcasts/${newestBroadcast.id}/stats?api_secret=${process.env.API_SECRET}`
+  );
+  const singleStats = await singleResponse.json();
+
+  // Check if the last broadcast is not published - and hide it if that's the case
+  const publishedFeed = feed.filter((post) => {
+    if (
+      post.id === singleStats.broadcast.id &&
+      singleStats.broadcast.status !== "published"
+    ) {
+      return false;
+    }
+    return true;
+  });
+
   return {
     props: {
-      feed,
+      publishedFeed,
     },
   };
 }
 
-export default function Home({ feed }) {
+export default function Home({ publishedFeed }) {
   return (
     <div className="min-h-screen w-full bg-gray-900 text-white pb-8">
       <Head>
@@ -72,7 +93,7 @@ export default function Home({ feed }) {
       </Head>
       <div className="max-w-xl lg:max-w-2xl mx-auto px-4">
         <Subscribe />
-        <Feed feed={feed} />
+        <Feed feed={publishedFeed} />
       </div>
       <script
         async
