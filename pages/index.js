@@ -48,11 +48,11 @@ export async function getServerSideProps() {
   );
   const singleStats = await singleResponse.json();
 
-  // Check if the last broadcast is not published - and hide it if that's the case
+  // Hide the last broadcast if it's not completed
   const publishedFeed = feed.filter((post) => {
     if (
       post.id === singleStats.broadcast.id &&
-      singleStats.broadcast.status !== "published"
+      singleStats.broadcast.status !== "completed"
     ) {
       return false;
     }
