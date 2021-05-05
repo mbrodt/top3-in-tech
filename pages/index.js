@@ -52,7 +52,7 @@ export async function getServerSideProps() {
   const publishedFeed = feed.filter((post) => {
     if (
       post.id === singleStats.broadcast.id &&
-      singleStats.broadcast.status !== "completed"
+      singleStats.broadcast.stats.status !== "completed"
     ) {
       return false;
     }
