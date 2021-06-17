@@ -16,15 +16,24 @@ const slugify = (text) => {
 };
 
 export async function getServerSideProps() {
-  const res = await fetch(
+  const page1 = await fetch(
     `https://api.convertkit.com/v3/broadcasts?api_secret=${process.env.API_SECRET}`
   );
+  const page2 = await fetch(
+    `https://api.convertkit.com/v3/broadcasts?api_secret=${process.env.API_SECRET}&page=2`
+  );
+  console.log("page2:", page2);
 
   const BASE_URL = "https://madsbrodt.ck.page/posts";
-  const posts = await res.json();
+  const posts1 = await page1.json();
+  console.log("posts1:", posts1);
+  const posts2 = await page2.json();
+  console.log("posts2:", posts2);
+
+  const posts = [...posts1.broadcasts, ...posts2.broadcasts];
 
   // Filter to only Top 3 broadcasts
-  const feed = posts.broadcasts
+  const feed = posts
     .filter(
       (post, index, self) =>
         post.subject.startsWith("Top 3") &&
@@ -79,7 +88,10 @@ export default function Home({ publishedFeed }) {
           name="twitter:description"
           content="Get amazing resources, tech updates, and development advice directly to your inbox - every week"
         />
-        <meta name="twitter:image" content="/top3_meta.png" />
+        <meta
+          name="twitter:image"
+          content="https://top3-in-tech.netlify.app/top3_meta.png"
+        />
         <meta property="og:url" content="https://mads.fyi/top3" />
         <meta property="og:type" content="article" />
         <meta property="og:title" content="Become a better developer" />
@@ -87,7 +99,10 @@ export default function Home({ publishedFeed }) {
           property="og:description"
           content="Get amazing resources, tech updates, and development advice directly to your inbox - every week"
         />
-        <meta property="og:image" content="/top3_meta.png" />
+        <meta
+          property="og:image"
+          content="https://top3-in-tech.netlify.app/top3_meta.png"
+        />
 
         <link rel="icon" href="/favicon.ico" />
       </Head>
