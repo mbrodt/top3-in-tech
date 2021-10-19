@@ -52,10 +52,10 @@ export default function Subscribe() {
         <span className="text-gradient bg-gradient-to-r to-yellow-400 via-red-500 from-pink-500 font-bold">
           hand-crafted advice
         </span>{" "}
-        directly from me - every week!
+        directly from a seasoned front-end developer - every week!
       </p>
       <p className="mt-12 mb-2 lg:mb-4 font-semibold">
-        Join 2600+ developers getting value from the Top 3 in Tech newsletter.
+        Join 4000+ developers getting value from the Top 3 in Tech newsletter.
         No spam, unsubscribe any time.
       </p>
       {status !== "success" ? (
