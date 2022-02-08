@@ -77,7 +77,7 @@ export async function getServerSideProps() {
 
 export default function Home({ publishedFeed }) {
   return (
-    <div className="min-h-screen w-full bg-gray-900 text-white pb-8">
+    <div className="w-full min-h-screen pb-8 text-white bg-gray-900">
       <Head>
         <title>Top 3 in Tech newsletter</title>
         <meta name="twitter:card" content="summary_large_image" />
@@ -86,7 +86,7 @@ export default function Home({ publishedFeed }) {
         <meta name="twitter:title" content="Become a better developer" />
         <meta
           name="twitter:description"
-          content="Get amazing resources, tech updates, and development advice directly to your inbox - every week"
+          content="Get amazing resources, tech updates, and development advice directly to your inbox - every other week"
         />
         <meta
           name="twitter:image"
@@ -97,7 +97,7 @@ export default function Home({ publishedFeed }) {
         <meta property="og:title" content="Become a better developer" />
         <meta
           property="og:description"
-          content="Get amazing resources, tech updates, and development advice directly to your inbox - every week"
+          content="Get amazing resources, tech updates, and development advice directly to your inbox - every other week"
         />
         <meta
           property="og:image"
@@ -106,7 +106,7 @@ export default function Home({ publishedFeed }) {
 
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <div className="max-w-xl lg:max-w-2xl mx-auto px-4">
+      <div className="max-w-xl px-4 mx-auto lg:max-w-2xl">
         <Subscribe />
         <Feed feed={publishedFeed} />
       </div>
