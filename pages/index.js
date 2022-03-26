@@ -3,16 +3,18 @@ import Feed from "../components/feed";
 import Subscribe from "../components/subscribe";
 
 const slugify = (text) => {
-  return text
+  const slug = text
     .toString()
     .toLowerCase()
     .replace(/[.]/g, "-") // Replace multiple . with -
     .replace(/[/]/g, "-") // Replace multiple / with -
     .replace(/\s+/g, "-") // Replace spaces with -
+    .replace(/[']/g, "-") // Replace spaces with -
     .replace(/[^\w-]+/g, "") // Remove all non-word chars
     .replace(/--+/g, "-") // Replace multiple - with single -
     .replace(/^-+/, "") // Trim - from start of text
     .replace(/-+$/, ""); // Trim - from end of text
+  return slug;
 };
 
 export async function getServerSideProps() {
@@ -26,22 +28,36 @@ export async function getServerSideProps() {
 
   const BASE_URL = "https://madsbrodt.ck.page/posts";
   const posts1 = await page1.json();
-  console.log("posts1:", posts1);
   const posts2 = await page2.json();
-  console.log("posts2:", posts2);
 
   const posts = [...posts1.broadcasts, ...posts2.broadcasts];
 
+  let subjects = [];
+  let duplicates = [];
+
   // Filter to only Top 3 broadcasts
   const feed = posts
-    .filter(
-      (post, index, self) =>
+    .filter((post, index, self) => {
+      if (subjects.includes(post.subject)) {
+        duplicates.push(post.subject);
+      }
+      subjects.push(post.subject);
+
+      return (
         post.subject.startsWith("Top 3") &&
         self.findIndex((p) => p.subject === post.subject) === index
-    )
+      );
+    })
     // Map to include published URL
     .map((post, index) => {
-      const url = `${BASE_URL}/${slugify(post.subject)}`;
+      let url;
+      // If a post has been resent, the URL includes a "-1" at the end
+      if (duplicates.includes(post.subject)) {
+        url = `${BASE_URL}/${slugify(post.subject)}-1`;
+      } else {
+        url = `${BASE_URL}/${slugify(post.subject)}`;
+      }
+
       return {
         issue: index + 1,
         url,
