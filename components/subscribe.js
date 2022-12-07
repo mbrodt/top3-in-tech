@@ -55,7 +55,7 @@ export default function Subscribe() {
         directly from a seasoned front-end developer - every other week!
       </p>
       <p className="mt-12 mb-2 font-semibold lg:mb-4">
-        Join 5000+ developers getting value from the Top 3 in Tech newsletter.
+        Join 6000+ developers getting value from the Top 3 in Tech newsletter.
         No spam, unsubscribe any time.
       </p>
       {status !== "success" ? (
