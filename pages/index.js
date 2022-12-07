@@ -24,13 +24,20 @@ export async function getServerSideProps() {
   const page2 = await fetch(
     `https://api.convertkit.com/v3/broadcasts?api_secret=${process.env.API_SECRET}&page=2`
   );
-  console.log("page2:", page2);
+  const page3 = await fetch(
+    `https://api.convertkit.com/v3/broadcasts?api_secret=${process.env.API_SECRET}&page=3`
+  );
 
   const BASE_URL = "https://madsbrodt.ck.page/posts";
   const posts1 = await page1.json();
   const posts2 = await page2.json();
+  const posts3 = await page3.json();
 
-  const posts = [...posts1.broadcasts, ...posts2.broadcasts];
+  const posts = [
+    ...posts1.broadcasts,
+    ...posts2.broadcasts,
+    ...posts3.broadcasts,
+  ];
 
   let subjects = [];
   let duplicates = [];
